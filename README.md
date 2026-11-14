@@ -12,7 +12,7 @@ This is a static browser game. No account, installer, backend or build step is r
 - **GitHub Pages:** open **Settings → Pages**, set **Source** to **GitHub Actions** once, then the included workflow deploys the site automatically on every push to `main`. Expected URL: https://onlyrohitt.github.io/The-Last-Signal/.
 - **Netlify:** import this repository, set the base directory to `/`, leave the build command empty, and set the publish directory to `.`.
 
-The root `index.html` is the production entry point. The original development copies and avatar asset remain in `The-Last-Signal/`.
+The root `index.html` is the production entry point. The original development copies remain in `The-Last-Signal/`; the small root-level avatar copy keeps image loading consistent across GitHub Pages and Netlify.
 
 ## Controls
 
