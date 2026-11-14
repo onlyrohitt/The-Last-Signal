@@ -9,7 +9,7 @@ Explore a silent neon city, recover seven signal fragments, uncover the archive,
 This is a static browser game. No account, installer, backend or build step is required.
 
 - **Play locally:** open `index.html` in a modern desktop browser, or serve this folder with a local static server.
-- **GitHub Pages:** enable Pages from the repository's `main` branch and select the `/ (root)` folder.
+- **GitHub Pages:** open **Settings → Pages**, set **Source** to **GitHub Actions** once, then the included workflow deploys the site automatically on every push to `main`. Expected URL: https://onlyrohitt.github.io/The-Last-Signal/.
 - **Netlify:** import this repository, set the base directory to `/`, leave the build command empty, and set the publish directory to `.`.
 
 The root `index.html` is the production entry point. The original development copies and avatar asset remain in `The-Last-Signal/`.
