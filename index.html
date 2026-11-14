@@ -228,7 +228,7 @@ document.querySelectorAll('.back').forEach(b=>b.onclick=()=>show(back));$('bRes'
 $('vM').value=cfg.mus*100;$('vS').value=cfg.sfx*100;$('vC').value=cfg.sens*100;
 $('vM').oninput=e=>{cfg.mus=e.target.value/100;wr('cfg',cfg);vol()};$('vS').oninput=e=>{cfg.sfx=e.target.value/100;wr('cfg',cfg);vol();tn(660,.15,'sine',.2)};$('vC').oninput=e=>{cfg.sens=e.target.value/100;wr('cfg',cfg)};
 const optUp=()=>document.querySelectorAll('.opt').forEach(b=>b.classList.toggle('sel',b.dataset.c===cfg.char));
-document.querySelectorAll('.opt').forEach(b=>b.onclick=()=>{cfg.char=b.dataset.c;wr('cfg',cfg);pickFig();optUp();tn(660,.15,'sine',.2)});optUp();$('me').onerror=()=>{$('me').onerror=null;$('me').src=FACE};$('me').src=new URL('The-Last-Signal/rohit-new.jpg',location.href).href;
+document.querySelectorAll('.opt').forEach(b=>b.onclick=()=>{cfg.char=b.dataset.c;wr('cfg',cfg);pickFig();optUp();tn(660,.15,'sine',.2)});optUp();$('me').onerror=()=>{$('me').onerror=null;$('me').src=FACE};$('me').src='rohit-new.jpg';
 document.addEventListener('visibilitychange',()=>{if(document.hidden)pause()});setInterval(()=>{if(mode==='play')persist()},5000);
 /* ---------- per-frame ---------- */
 function objective(){const q=p=>{let b=null,bd=1e9;for(const i of items){if(!p(i)||has(i.k))continue;const d=Math.hypot(i.x-px,i.z-pz);if(d<bd){bd=d;b=i}}return b};
