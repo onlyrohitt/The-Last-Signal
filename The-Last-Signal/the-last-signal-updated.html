@@ -1,7 +1,14 @@
 <!DOCTYPE html>
 <html lang="en"><head><meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-<title>The Last Signal</title>
+<title>The Last Signal | A Cinematic 3D Signal-Hunting Adventure</title>
+<meta name="description" content="Explore a silent neon city, uncover lost transmissions, restore power and tune the final signal in The Last Signal, a free browser game by Rohit Sharma.">
+<meta name="theme-color" content="#050816">
+<meta property="og:type" content="website">
+<meta property="og:title" content="The Last Signal">
+<meta property="og:description" content="Somewhere in the static, someone is calling. Play the free 3D browser adventure.">
+<meta name="twitter:card" content="summary">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Crect width='100' height='100' rx='22' fill='%23050816'/%3E%3Cpath d='M15 52h17l9-25 18 48 10-23h16' fill='none' stroke='%2338e8ff' stroke-width='7' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E">
 <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@500;800&family=Rajdhani:wght@500;600&display=swap" rel="stylesheet">
 <style>
 :root{--bg:#050816;--ink:#dfe8ff;--cy:#38e8ff;--pu:#9b5cff;--or:#ff9a3c;color-scheme:dark;box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}
@@ -30,6 +37,18 @@ p{margin:6px 0;max-width:560px;line-height:1.35}.sub{color:#9fb2ff;font-size:20p
 #me{width:104px;height:104px;border-radius:50%;object-fit:cover;border:2px solid var(--cy);box-shadow:0 0 24px #38e8ff66;margin-bottom:10px}
 .opt{font:600 16px Rajdhani;background:#0a123699;color:var(--ink);border:1px solid #38e8ff55;padding:6px 14px;cursor:pointer}.opt.sel{background:#38e8ff33;border-color:var(--cy);color:var(--cy)}
 .lk{display:inline-block;color:var(--cy);border:1px solid #38e8ff55;padding:7px 16px;margin:4px;text-decoration:none;background:#0a123699}.lk:hover{background:#38e8ff22}
+/* ---------- release polish ---------- */
+.scr{background:radial-gradient(ellipse at 50% 42%,rgba(23,31,74,.88),rgba(2,4,14,.94) 68%),linear-gradient(135deg,#050816,#100b27)}
+.scr::before{content:"";position:fixed;inset:14px;border:1px solid rgba(56,232,255,.12);border-radius:18px;pointer-events:none}
+#menu{gap:8px}
+#menu::after{content:"A CINEMATIC 3D SIGNAL-HUNTING ADVENTURE  •  FREE TO PLAY";color:#8496c8;font:600 11px Rajdhani,sans-serif;letter-spacing:.22em;margin-top:12px}
+.btn{border-radius:10px;position:relative;overflow:hidden;box-shadow:0 8px 28px rgba(0,0,0,.22)}
+.btn:focus-visible,.opt:focus-visible,.lk:focus-visible,#pbtn:focus-visible{outline:2px solid var(--cy);outline-offset:3px}
+.btn::after{content:"";position:absolute;inset:0;background:linear-gradient(110deg,transparent,rgba(255,255,255,.07),transparent);transform:translateX(-120%);transition:transform .45s}
+.btn:hover::after{transform:translateX(120%)}
+.sub{max-width:540px}
+@media(max-width:600px){html,body{font-size:16px}.scr{padding:22px 18px}.scr::before{inset:7px;border-radius:12px}h1{letter-spacing:.055em}.sub{font-size:18px;margin-bottom:18px}.btn{width:min(340px,88vw);padding:14px 0}#joy{width:112px;height:112px;left:14px;bottom:calc(env(safe-area-inset-bottom,0px) + 18px)}#stk{left:32px;top:32px}.tb{width:58px;height:58px;font-size:12px}#bJ{right:16px;bottom:calc(env(safe-area-inset-bottom,0px) + 24px)}#bE{right:88px;bottom:calc(env(safe-area-inset-bottom,0px) + 66px)}#bR{right:16px;bottom:calc(env(safe-area-inset-bottom,0px) + 104px)}}
+@media(prefers-reduced-motion:reduce){*,*::before,*::after{scroll-behavior:auto!important;transition:none!important;animation:none!important}}
 </style></head><body>
 <div id="load" class="scr on"><h1>THE LAST SIGNAL</h1><div class="bar"><i id="bar"></i></div><p id="ltxt">Tuning the receiver…</p></div>
 <div id="menu" class="scr"><p class="big">A game by Rohit Sharma</p><h1>THE LAST SIGNAL</h1><p class="sub">Somewhere in the static, someone is calling.</p>
