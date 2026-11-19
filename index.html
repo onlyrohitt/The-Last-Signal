@@ -1,14 +1,7 @@
 <!DOCTYPE html>
 <html lang="en"><head><meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-<title>The Last Signal | A Cinematic 3D Signal-Hunting Adventure</title>
-<meta name="description" content="Explore a silent neon city, uncover lost transmissions, restore power and tune the final signal in The Last Signal, a free browser game by Rohit Sharma.">
-<meta name="theme-color" content="#050816">
-<meta property="og:type" content="website">
-<meta property="og:title" content="The Last Signal">
-<meta property="og:description" content="Somewhere in the static, someone is calling. Play the free 3D browser adventure.">
-<meta name="twitter:card" content="summary">
-<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Crect width='100' height='100' rx='22' fill='%23050816'/%3E%3Cpath d='M15 52h17l9-25 18 48 10-23h16' fill='none' stroke='%2338e8ff' stroke-width='7' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E">
+<title>The Last Signal</title>
 <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@500;800&family=Rajdhani:wght@500;600&display=swap" rel="stylesheet">
 <style>
 :root{--bg:#050816;--ink:#dfe8ff;--cy:#38e8ff;--pu:#9b5cff;--or:#ff9a3c;color-scheme:dark;box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}
@@ -37,18 +30,7 @@ p{margin:6px 0;max-width:560px;line-height:1.35}.sub{color:#9fb2ff;font-size:20p
 #me{width:104px;height:104px;border-radius:50%;object-fit:cover;border:2px solid var(--cy);box-shadow:0 0 24px #38e8ff66;margin-bottom:10px}
 .opt{font:600 16px Rajdhani;background:#0a123699;color:var(--ink);border:1px solid #38e8ff55;padding:6px 14px;cursor:pointer}.opt.sel{background:#38e8ff33;border-color:var(--cy);color:var(--cy)}
 .lk{display:inline-block;color:var(--cy);border:1px solid #38e8ff55;padding:7px 16px;margin:4px;text-decoration:none;background:#0a123699}.lk:hover{background:#38e8ff22}
-/* ---------- release polish ---------- */
-.scr{background:radial-gradient(ellipse at 50% 42%,rgba(23,31,74,.88),rgba(2,4,14,.94) 68%),linear-gradient(135deg,#050816,#100b27)}
-.scr::before{content:"";position:fixed;inset:14px;border:1px solid rgba(56,232,255,.12);border-radius:18px;pointer-events:none}
-#menu{gap:8px}
-#menu::after{content:"A CINEMATIC 3D SIGNAL-HUNTING ADVENTURE  •  FREE TO PLAY";color:#8496c8;font:600 11px Rajdhani,sans-serif;letter-spacing:.22em;margin-top:12px}
-.btn{border-radius:10px;position:relative;overflow:hidden;box-shadow:0 8px 28px rgba(0,0,0,.22)}
-.btn:focus-visible,.opt:focus-visible,.lk:focus-visible,#pbtn:focus-visible{outline:2px solid var(--cy);outline-offset:3px}
-.btn::after{content:"";position:absolute;inset:0;background:linear-gradient(110deg,transparent,rgba(255,255,255,.07),transparent);transform:translateX(-120%);transition:transform .45s}
-.btn:hover::after{transform:translateX(120%)}
-.sub{max-width:540px}
-@media(max-width:600px){html,body{font-size:16px}.scr{padding:22px 18px}.scr::before{inset:7px;border-radius:12px}h1{letter-spacing:.055em}.sub{font-size:18px;margin-bottom:18px}.btn{width:min(340px,88vw);padding:14px 0}#joy{width:112px;height:112px;left:14px;bottom:calc(env(safe-area-inset-bottom,0px) + 18px)}#stk{left:32px;top:32px}.tb{width:58px;height:58px;font-size:12px}#bJ{right:16px;bottom:calc(env(safe-area-inset-bottom,0px) + 24px)}#bE{right:88px;bottom:calc(env(safe-area-inset-bottom,0px) + 66px)}#bR{right:16px;bottom:calc(env(safe-area-inset-bottom,0px) + 104px)}}
-@media(prefers-reduced-motion:reduce){*,*::before,*::after{scroll-behavior:auto!important;transition:none!important;animation:none!important}}
+#tsk{display:block;margin-top:6px;color:#ffd966;font-weight:600;font-size:18px}#tsk.low{color:#ff6a6a;animation:bl .5s infinite alternate}@keyframes bl{to{opacity:.35}}
 </style></head><body>
 <div id="load" class="scr on"><h1>THE LAST SIGNAL</h1><div class="bar"><i id="bar"></i></div><p id="ltxt">Tuning the receiver…</p></div>
 <div id="menu" class="scr"><p class="big">A game by Rohit Sharma</p><h1>THE LAST SIGNAL</h1><p class="sub">Somewhere in the static, someone is calling.</p>
@@ -59,8 +41,8 @@ p{margin:6px 0;max-width:560px;line-height:1.35}.sub{color:#9fb2ff;font-size:20p
 <label class="row">Music<input id="vM" type="range" min="0" max="100"></label><label class="row">Sound effects<input id="vS" type="range" min="0" max="100"></label><label class="row">Camera sensitivity<input id="vC" type="range" min="30" max="200"></label><div class="row">Character<span><button class="opt" data-c="avatar">Avatar</button> <button class="opt" data-c="admin">Admin</button></span></div><button class="btn back">Back</button></div>
 <div id="pause" class="scr"><h2>Paused</h2><button class="btn" id="bRes">Resume</button><button class="btn" id="bSet2">Settings</button><button class="btn" id="bQuit">Save and quit</button></div>
 <div id="end" class="scr"><h1>THE LAST SIGNAL</h1><p class="big">Signal received.</p><p>The city never vanished. It was carried, one mind at a time, into the carrier wave. You were the last receiver, and now the lights are on again.</p><p id="stats" style="color:#9fb2ff"></p><p class="big" style="margin-top:20px">Created by Rohit Sharma</p><p>Independent Game Developer. Thank you for playing!</p><button class="btn" id="bMenu">Main menu</button></div>
-<div id="term" class="scr"><h2>Signal terminal</h2><p>Tune the carrier wave. The lab reports named the frequency.</p><h1 id="mhz" style="font-size:48px">97.0 MHz</h1><input id="fr" type="range" min="880" max="1080" value="900"><div id="meter"><i></i></div><p id="tst">Searching…</p><button class="btn" id="bTc">Step away</button></div>
-<div id="hud"><div id="obj"><small id="area"></small><b id="otx"></b></div><div id="cnt"><span id="c1"></span><span id="c2"></span><button id="pbtn">Pause</button></div><div id="sig"><div><i style="height:8px"></i><i style="height:14px"></i><i style="height:20px"></i><i style="height:26px"></i><i style="height:32px"></i></div><span>Signal</span></div><div id="prompt"></div></div>
+<div id="term" class="scr"><h2>Signal terminal</h2><p>Tune the carrier wave. The lab reports named the frequency, but the signal drifts, so keep adjusting.</p><h1 id="mhz" style="font-size:48px">97.0 MHz</h1><input id="fr" type="range" min="880" max="1080" value="900"><div id="meter"><i></i></div><p id="tst">Searching…</p><button class="btn" id="bTc">Step away</button></div>
+<div id="hud"><div id="obj"><small id="area"></small><b id="otx"></b><span id="tsk"></span></div><div id="cnt"><span id="c1"></span><span id="c2"></span><span id="c3"></span><button id="pbtn">Pause</button></div><div id="sig"><div><i style="height:8px"></i><i style="height:14px"></i><i style="height:20px"></i><i style="height:26px"></i><i style="height:32px"></i></div><span>Signal</span></div><div id="prompt"></div></div>
 <div id="msg"><b></b><p></p></div><div id="card"><small></small><h2></h2></div>
 <div id="tc"><div id="joy"><i id="stk"></i></div><div class="tb" id="bJ">Jump</div><div class="tb" id="bE">Use</div><div class="tb" id="bR">Run</div></div>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
@@ -81,6 +63,18 @@ let G,mode='load',back='menu',px=0,py=0,pz=6,vy=0,yaw=0,pitch=.3,face=0,ph=0,act
 const K={},clock=new T.Clock(),cols=[],items=[],gates={},hot=[],signs=[],blink=[],npcs=[],shadows=[];
 const fresh=()=>({x:0,z:6,yaw:0,c:[],ch:1}),has=k=>G.c.includes(k),take=k=>{if(!has(k))G.c.push(k)},cnt=p=>G.c.filter(c=>c[0]===p).length;
 const persist=()=>{G.x=px;G.z=pz;G.yaw=yaw;wr('save',G)};
+/* ---------- tasks and star effects ---------- */
+const TK=[0,{n:'Signal Sprint',d:'collect 3 fragments',t:60,ok:()=>cnt('f')>=3},{n:'Power Rush',d:'restore power and grab the keycard',t:60,ok:()=>cnt('s')>=3&&has('k')},{n:'Final Tuning',d:'lock the drifting signal',t:60,ok:()=>0}],fmt=s=>Math.floor(s/60)+':'+String(Math.floor(s%60)).padStart(2,'0');
+let tl=0,tOn=0,stun=0,fxT=0,fxD=3,fxM='win';const fxS=[];
+function beginTask(q){const k=TK[G.ch];tOn=0;if(!k||G.sr[G.ch-1])return;tl=k.t;tOn=1;if(!q)say('TASK · '+k.n.toUpperCase(),'Goal: '+k.d+' in '+fmt(k.t)+'. Batteries add 15 seconds.',8)}
+function win(){tOn=0;const k=TK[G.ch],r=tl/k.t,n=r>.6?3:r>.3?2:1;G.sr[G.ch-1]=n;stars('win',3);chime();say('TASK COMPLETE · '+'★'.repeat(n)+'☆'.repeat(3-n),k.n+' cleared with '+Math.ceil(tl)+' s left.',7);persist()}
+function lose(){G.fl++;tl=TK[G.ch].t;stun=1.6;stars('fail',2.4);tn(180,.7,'sawtooth',.15);say('TASK FAILED','Time ran out and you are dizzy. The clock resets, so try again. Fails: '+G.fl,7);if(mode==='term')closeTerm()}
+function tick(dt){if(!tOn)return;tl-=dt;if(tl<10&&Math.floor(tl)!==Math.floor(tl+dt))tn(880,.08,'square',.07);if(G.ch<3&&TK[G.ch].ok())win();else if(tl<=0)lose()}
+function mkStars(){const st=cv(64,64,g=>{g.fillStyle='#fff';g.beginPath();for(let i=0;i<10;i++){const r=i%2?11:28,a=-Math.PI/2+i*Math.PI/5;g.lineTo(32+Math.cos(a)*r,32+Math.sin(a)*r)}g.closePath();g.fill()});for(let i=0;i<7;i++){const q=new T.Sprite(new T.SpriteMaterial({map:st,transparent:true,depthWrite:false,fog:false,blending:T.AdditiveBlending}));q.visible=false;scene.add(q);fxS.push(q)}}
+function stars(m,d){fxM=m;fxT=fxD=d}
+function fxUpd(dt,t){const on=fxT>0;if(on)fxT-=dt;const el=fxD-fxT,isW=fxM==='win',fade=Math.min(1,Math.max(0,fxT)/.5);
+fxS.forEach((q,i)=>{const v=on&&(isW||i<4);q.visible=v;if(!v)return;const a=t*(isW?3.2:2)+i*(6.283/(isW?7:4)),r=isW?.22+.4*Math.min(1,el/.5):.34,z=isW?.3+.08*Math.sin(t*8+i):.22;
+q.position.set(px+Math.cos(a)*r,py+2.28+(isW?Math.sin(t*5+i)*.1:Math.sin(a*2)*.04),pz+Math.sin(a)*r);q.scale.set(z,z,1);q.material.opacity=fade;q.material.color.setHex(isW?0xffd54a:0x9fc0ff)})}
 /* ---------- helpers ---------- */
 const M=(c,r=.7,m=.2,e=0,ei=1)=>new T.MeshStandardMaterial({color:c,roughness:r,metalness:m,emissive:e,emissiveIntensity:ei});
 const cv=(w,h,fn)=>{const c=document.createElement('canvas');c.width=w;c.height=h;fn(c.getContext('2d'));const t=new T.CanvasTexture(c);t.encoding=T.sRGBEncoding;return t};
@@ -105,11 +99,11 @@ const pt=(geo,m,x,y,z)=>{const o=new T.Mesh(geo,m);o.position.set(x,y,z);r.add(o
 return{g,L:new T.Group(),R:new T.Group(),AL:new T.Group(),AR:new T.Group(),rad,imp:1,walk:0,air:false,md:-1,
 upd(){const p=g.position,dx=cam.position.x-p.x,dz=cam.position.z-p.z,l=Math.hypot(dx,dz)||1,cx=dx/l,cz=dz/l,fx=Math.sin(face),fz=Math.cos(face);bb.rotation.y=Math.atan2(dx,dz);
 const i=Math.round(Math.atan2(fx*cz-fz*cx,fx*cx+fz*cz)/(Math.PI/4)),a=Math.abs(i);let k,fl=1;if(a===0)k='front';else if(a===1){k='q3f';fl=i>0?-1:1}else if(a===2)k=i>0?'right':'left';else if(a===3){k='q3b';fl=i>0?1:-1}else k='back';
-mat.map=tx[k];fp.scale.x=fl;const side=a===2?0:1;if(side!==this.md){this.md=side;setLegs(side)}
+mat.map=tx[k];fp.scale.x=fl;const side=a===2?0:1;if(side!==this.md){this.md=side;setLegs(0)}
 const s=Math.sin(ph),w=this.walk,ar=this.air;
 if(!side){lp[0].rotation.z=ar?.5:.42*w*s;lp[1].rotation.z=ar?-.2:-.42*w*s;lp[0].position.y=lp[1].position.y=hl}
-else{lp[0].rotation.z=lp[1].rotation.z=0;lp[0].position.y=hl+(ar?.12:Math.max(0,s)*.07*w);lp[1].position.y=hl+(ar?.12:Math.max(0,-s)*.07*w)}
-up.rotation.z=-s*.03*w;up.scale.y=1+(act>0?.03:0)}}}
+else{lp[0].rotation.z=lp[1].rotation.z=0;lp[0].position.y=lp[1].position.y=hl}
+up.rotation.z=side?0:-s*.03*w;up.scale.y=1+(act>0?.03:0)}}}
 function pickFig(){fig=figs[cfg.char]||figs.admin;for(const k in figs)figs[k].g.visible=figs[k]===fig}
 function makeChar(o){const g=new T.Group(),jm=M(o.j,.8,.15),pm=M(o.p||0x141a30,.8,.1),sk=M(o.s||0xc79b7e,.6,0),ac=new T.MeshBasicMaterial({color:o.a}),dk=M(0x0a0d1a,.5,.4),B=(w,h,d)=>new T.BoxGeometry(w,h,d),tm=t=>new T.MeshStandardMaterial({map:t,emissiveMap:t,emissive:0xffffff,emissiveIntensity:.35,roughness:.9}),X=o.tex?Object.fromEntries(Object.entries(IMG).map(([k,u])=>[k,tm(LD(u))])):0;
 const part=(geo,mat,x,y,z,p=g)=>{const s=new T.Mesh(geo,mat);s.position.set(x,y,z);p.add(s);return s};
@@ -144,7 +138,7 @@ const a=(geo,mat,px,py,pz)=>{const s=new T.Mesh(geo,mat);s.position.set(px,py,pz
 for(const sx of[-1,1])for(const sz of[-1.4,1.4])a(w,wm,sx*1.0,.38,sz).rotation.z=Math.PI/2;a(new T.BoxGeometry(1.6,.15,.08),new T.MeshBasicMaterial({color:0xff2a3c}),0,.8,2.21);scene.add(g);cols.push({x0:x-2.2,x1:x+2.2,z0:z-2.4,z1:z+2.4,id:'s'})}
 function desk(x,z){box(3,1,1.4,x,0,z,M(0x1a2040,.5,.5),'s');const s=new T.Mesh(new T.PlaneGeometry(1.1,.65),new T.MeshBasicMaterial({color:0x38e8ff}));s.position.set(x,1.65,z-.45);scene.add(s)}
 function rack(x,z){box(1.2,3.2,1,x,0,z,new T.MeshStandardMaterial({color:0x10142a,roughness:.5,metalness:.7,emissive:0xffffff,emissiveMap:RT}),'s')}
-function pick(k,x,y,z,type,label,fn,col=0x38e8ff){const m=new T.Mesh(type==='frag'?new T.OctahedronGeometry(.35):new T.BoxGeometry(.5,.05,.38),new T.MeshBasicMaterial({color:col})),s=new T.Sprite(new T.SpriteMaterial({map:GL,color:col,blending:T.AdditiveBlending,depthWrite:false,transparent:true}));s.scale.set(2.4,2.4,1);m.add(s);m.position.set(x,y,z);scene.add(m);items.push({k,type,x,z,y0:y,label,m,fl:1,fn})}
+function pick(k,x,y,z,type,label,fn,col=0x38e8ff){const m=new T.Mesh(type==='frag'?new T.OctahedronGeometry(.35):type==='bat'?new T.CylinderGeometry(.13,.13,.34,10):new T.BoxGeometry(.5,.05,.38),new T.MeshBasicMaterial({color:col})),s=new T.Sprite(new T.SpriteMaterial({map:GL,color:col,blending:T.AdditiveBlending,depthWrite:false,transparent:true}));s.scale.set(2.4,2.4,1);m.add(s);m.position.set(x,y,z);scene.add(m);items.push({k,type,x,z,y0:y,label,m,fl:1,fn})}
 function npcItem(k,x,z,label,fn){items.push({k,type:'npc',x,z,label,rep:1,fn})}
 function gate(id,quiet){const g=gates[id];g.open=1;for(let i=cols.length-1;i>=0;i--)if(cols[i].id===id){g.col=cols[i];cols.splice(i,1)}if(quiet)g.m.position.y=g.y0+g.h;else door()}
 let WT,RT;
@@ -183,13 +177,14 @@ const tw=new T.Mesh(new T.CylinderGeometry(.7,3,120,8),M(0x181c3a,.5,.6));tw.pos
 const tb=new T.Mesh(new T.SphereGeometry(1.2,10,8),new T.MeshBasicMaterial({color:0xc9a0ff,fog:false}));tb.position.set(0,122,-262);scene.add(tb);
 box(2.4,1.2,1,0,0,-261,M(0x151a33,.4,.7),'s');const ts=new T.Mesh(new T.PlaneGeometry(2,1),new T.MeshBasicMaterial({color:0x9b5cff}));ts.position.set(0,1.9,-261.4);ts.rotation.x=-.3;scene.add(ts)},
 ()=>{figs.avatar=makeChar({j:0x1b2038,a:0x38e8ff,h:0x0d1020});figs.admin=makeAdmin();
-for(const k in figs){const c=figs[k];scene.add(c.g);const sh=new T.Mesh(new T.CircleGeometry(.6,16),new T.MeshBasicMaterial({color:0,transparent:true,opacity:.4}));sh.rotation.x=-Math.PI/2;sh.position.y=.04;c.g.add(sh)}pickFig();
+for(const k in figs){const c=figs[k];scene.add(c.g);const sh=new T.Mesh(new T.CircleGeometry(.6,16),new T.MeshBasicMaterial({color:0,transparent:true,opacity:.4}));sh.rotation.x=-Math.PI/2;sh.position.y=.04;c.g.add(sh)}pickFig();mkStars();
 const np=(o,x,z,ry,sd)=>{const c=makeChar(o);c.g.position.set(x,0,z);c.g.rotation.y=ry;scene.add(c.g);c.sd=sd;npcs.push(c);return c};
 np({j:0xc8d2ee,a:0x38e8ff,h:0x222233},0,-188,0);np({j:0x4a3aa8,a:0xff9a3c,h:0x1a1a2e},-20,-69,Math.PI/2);[[5,-45],[-5,-98],[0,-218]].forEach(a=>np({j:0x04050a,a:0x6a3cff,h:0},a[0],a[1],0,1));
 const fr=(i,x,z)=>pick('f'+i,x,1.3,z,'frag','Collect signal fragment',()=>{take('f'+i);chime();const n=cnt('f');let t=FR[n-1];if(n>=3&&!has('G1')){take('G1');gate('G1');t+=' Far down the street, the laboratory gate has opened.'}say('SIGNAL FRAGMENT '+n+' / 7',t,9);persist()});
 [[0,3,-20],[1,-7,-50],[2,7,-90],[3,4,-140],[4,-5,-168],[5,-6,-215],[6,7,-238]].forEach(a=>fr(...a));
 const dc=(k,x,y,z)=>pick(k,x,y,z,'doc','Read '+DS[k][0].toLowerCase(),()=>{take(k);chime();say(DS[k][0].toUpperCase(),DS[k][1],9);persist()},0xffb060);
 dc('d0',-8,.5,-32);dc('d1',8,.5,-72);dc('d2',6,1.5,-125);dc('d3',-6,1.5,-186);dc('d4',-8,.5,-226);
+[[0,6,-28],[1,-4,-62],[2,6,-102],[3,-7,-132],[4,5,-172],[5,3,-200],[6,-3,-236]].forEach(a=>pick('b'+a[0],a[1],1.1,a[2],'bat','Take battery (+15 s)',()=>{take('b'+a[0]);chime();if(tOn)tl+=15;say('BATTERY','+15 seconds on the clock.',4);persist()},0xffe066));
 pick('k',7,1.5,-160,'key','Take keycard',()=>{take('k');chime();say('KEYCARD','An access card marked TOWER · LEVEL 0. It still hums faintly.');persist()},0xff9a3c);
 [[0,-1,-130],[1,1,-155],[2,1,-176]].forEach(a=>{const s=a[1],g=new T.Group();g.position.set(s*11.2,1.6,a[2]);g.rotation.y=-s*Math.PI/2;scene.add(g);g.add(new T.Mesh(new T.BoxGeometry(.7,1,.12),M(0x1a2040,.5,.6)));const lp=new T.Group();lp.position.z=.1;g.add(lp);const lv=new T.Mesh(new T.BoxGeometry(.1,.5,.1),M(0xff9a3c,.4,.5));lv.position.y=.25;lp.add(lv);const ind=new T.Mesh(new T.SphereGeometry(.09,8,6),new T.MeshBasicMaterial({color:0xff4040}));ind.position.set(0,.4,.08);g.add(ind);
 items.push({k:'s'+a[0],type:'sw',x:s*(a[0]===2?10.6:10.4),z:a[0]===2?-176:a[2],label:'Flip switch',vis(){const h=has(this.k);lp.rotation.x=h?.7:-.7;ind.material.color.setHex(h?0x40ff90:0xff4040)},fn(){take(this.k);chime();const n=cnt('s');if(n>=3){take('G2');gate('G2');say('POWER RESTORED','The hall hums to life. The far gate unlocks.')}else say('CIRCUIT '+n+' / 3','A relay clicks. Power creeps along the wall. Find the others.');persist()}})});
@@ -212,16 +207,16 @@ $('bJ').onpointerdown=()=>jumpReq=1;$('bE').onpointerdown=()=>tryAct();$('bR').o
 /* ---------- flow ---------- */
 const show=id=>{document.querySelectorAll('.scr').forEach(e=>e.classList.remove('on'));if(id)$(id).classList.add('on')};
 function toMenu(){mode='menu';show('menu');$('hud').classList.remove('on');$('tc').classList.remove('on');$('bCont').disabled=!rd('save',null);G=G||fresh()}
-function start(g){G=g;px=G.x;pz=G.z;yaw=G.yaw;py=0;vy=0;pitch=.3;items.forEach(i=>{i.vis&&i.vis()});for(const id in gates){const g=gates[id];g.open=0;g.m.position.y=g.y0;if(g.col&&!cols.includes(g.col))cols.push(g.col)}['G1','G2','T3'].forEach(id=>{if(has(id))gate(id,1)});
+function start(g){G=g;G.sr=G.sr||[0,0,0];G.fl=G.fl||0;stun=0;fxT=0;px=G.x;pz=G.z;yaw=G.yaw;py=0;vy=0;pitch=.3;items.forEach(i=>{i.vis&&i.vis()});for(const id in gates){const g=gates[id];g.open=0;g.m.position.y=g.y0;if(g.col&&!cols.includes(g.col))cols.push(g.col)}['G1','G2','T3'].forEach(id=>{if(has(id))gate(id,1)});
 mode='play';show(null);$('hud').classList.add('on');if(touch)$('tc').classList.add('on');lock();
-if(!G.c.length)say('YOU WAKE ALONE','Cold asphalt. A silent city. Your radio crackles: follow the signal. Move with WASD, look with the mouse, press E to interact.',10);persist()}
+if(!G.c.length)say('YOU WAKE ALONE','Cold asphalt. A silent city. Your radio crackles: follow the signal. Move with WASD, look with the mouse, press E to interact. Task: collect 3 fragments before the timer ends, and pick up batteries for extra time.',11);beginTask(!G.c.length);persist()}
 function pause(){if(mode!=='play')return;mode='pause';persist();show('pause');document.exitPointerLock&&document.exitPointerLock()}
 function resume(){mode='play';show(null);lock()}
 function openTerm(){mode='term';document.exitPointerLock&&document.exitPointerLock();$('term').classList.add('on');hold=0;$('fr').value=900;upTerm()}
 function closeTerm(){mode='play';$('term').classList.remove('on');lock()}
 function upTerm(){$('mhz').textContent=($('fr').value/10).toFixed(1)+' MHz'}
-function finish(){take('E');persist();mode='end';$('term').classList.remove('on');$('hud').classList.remove('on');$('tc').classList.remove('on');$('stats').textContent='Signal fragments '+cnt('f')+' / 7 · Archive '+(cnt('d')+cnt('r'))+' / 6';show('end');chime();setStat(0)}
-function tryAct(){if(mode!=='play'||!cur)return;act=.6;cur.fn()}
+function finish(){if(tOn)win();take('E');persist();mode='end';$('term').classList.remove('on');$('hud').classList.remove('on');$('tc').classList.remove('on');$('stats').textContent='Signal fragments '+cnt('f')+' / 7 · Archive '+(cnt('d')+cnt('r'))+' / 6 · Cells '+cnt('b')+' / 7 · Stars '+G.sr.reduce((a,b)=>a+b,0)+' / 9 · Fails '+G.fl;show('end');chime();setStat(0)}
+function tryAct(){if(mode!=='play'||!cur)return;act=.6;const c=cur;if(c.type==='frag'||c.type==='bat'||c.type==='sw')stars('win',1.3);c.fn()}
 $('bNew').onclick=()=>{initAudio();start(fresh())};$('bCont').onclick=()=>{initAudio();start(rd('save',fresh()))};
 $('bSet').onclick=()=>{back='menu';show('set')};$('bSet2').onclick=()=>{back='pause';show('set')};$('bAbout').onclick=()=>{back='menu';show('about')};
 document.querySelectorAll('.back').forEach(b=>b.onclick=()=>show(back));$('bRes').onclick=resume;$('bQuit').onclick=()=>{persist();toMenu()};$('bMenu').onclick=toMenu;$('pbtn').onclick=pause;$('bTc').onclick=closeTerm;$('fr').oninput=upTerm;
@@ -237,7 +232,7 @@ if(!has('k'))return['Find the keycard',q(i=>i.type==='key')];if(!has('T3'))retur
 const lerpA=(a,b,t)=>{let d=((b-a+Math.PI)%(Math.PI*2)+Math.PI*2)%(Math.PI*2)-Math.PI;return a+d*t};
 const setT=(id,v)=>{const e=$(id);if(e.textContent!==v)e.textContent=v};
 function update(dt,t){
-let ix=(K.KeyD?1:0)-(K.KeyA?1:0)+jv.x,iz=(K.KeyW?1:0)-(K.KeyS?1:0)+jv.y;const m=Math.hypot(ix,iz);if(m>1){ix/=m;iz/=m}const l=Math.min(1,m),run=K.ShiftLeft||K.ShiftRight||runT,sp=(run?7.5:4)*l;
+tick(dt);let ix=(K.KeyD?1:0)-(K.KeyA?1:0)+jv.x,iz=(K.KeyW?1:0)-(K.KeyS?1:0)+jv.y;if(stun>0){stun-=dt;ix=iz=0}const m=Math.hypot(ix,iz);if(m>1){ix/=m;iz/=m}const l=Math.min(1,m),run=K.ShiftLeft||K.ShiftRight||runT,sp=(run?7.5:4)*l;
 const fx=-Math.sin(yaw),fz=-Math.cos(yaw),rx=Math.cos(yaw),rz=-Math.sin(yaw),dx=rx*ix+fx*iz,dz=rz*ix+fz*iz;
 if(l>.05){px+=dx*sp*dt;pz+=dz*sp*dt;face=lerpA(face,Math.atan2(dx,dz),Math.min(1,dt*12))}
 for(const c of cols){const cx=Math.max(c.x0,Math.min(px,c.x1)),cz=Math.max(c.z0,Math.min(pz,c.z1)),ex=px-cx,ez=pz-cz,d=Math.hypot(ex,ez);if(d<.5){if(d<1e-4){px+=.5;continue}px+=ex/d*(.5-d);pz+=ez/d*(.5-d)}}
@@ -250,15 +245,15 @@ fig.g.position.set(px,py+(mv?Math.abs(Math.sin(ph))*.07:0),pz);fig.g.rotation.y=
 const d=5.2,cp=Math.cos(pitch);cam.position.set(px+Math.sin(yaw)*cp*d,Math.max(.5,py+1.7+Math.sin(pitch)*d),pz+Math.cos(yaw)*cp*d);cam.lookAt(px,py+1.5,pz);
 cur=null;let best=3;for(const i of items){if(!i.rep&&has(i.k))continue;const dd=Math.hypot(i.x-px,i.z-pz);if(dd<best){best=dd;cur=i}}
 const pr=$('prompt');if(cur){pr.style.display='block';setT('prompt',(touch?'':'E · ')+cur.label)}else pr.style.display='none';
-if(pz<-113&&G.ch<2){G.ch=2;card('AREA 2','The abandoned laboratory')}if(pz<-195&&G.ch<3){G.ch=3;card('AREA 3','The signal tower')}
+if(pz<-113&&G.ch<2){G.ch=2;card('AREA 2','The abandoned laboratory');beginTask()}if(pz<-195&&G.ch<3){G.ch=3;card('AREA 3','The signal tower');beginTask()}
 const ob=objective(),tg=ob[1];let dm=tg?Math.hypot(tg.x-px,tg.z-pz):99;for(const i of items)if(i.type==='frag'&&!has(i.k))dm=Math.min(dm,Math.hypot(i.x-px,i.z-pz));
-const st=Math.max(0,Math.min(1,1-dm/60));setT('area',['THE EMPTY STREETS','THE ABANDONED LABORATORY','THE SIGNAL TOWER'][G.ch-1]);setT('otx',ob[0]);setT('c1','Signals '+cnt('f')+' / 7');setT('c2','Archive '+(cnt('d')+cnt('r'))+' / 6');
+const st=Math.max(0,Math.min(1,1-dm/60));setT('area',['THE EMPTY STREETS','THE ABANDONED LABORATORY','THE SIGNAL TOWER'][G.ch-1]);setT('otx',ob[0]);setT('c1','Signals '+cnt('f')+' / 7');setT('c2','Archive '+(cnt('d')+cnt('r'))+' / 6');setT('c3','Cells '+cnt('b')+' / 7 · Stars '+G.sr.reduce((a,b)=>a+b,0)+' / 9');const kk=TK[G.ch];$('tsk').classList.toggle('low',!!tOn&&tl<20);setT('tsk',kk?(tOn?'⏱ '+fmt(tl)+' · '+kk.n+': '+kk.d:kk.n+' · '+'★'.repeat(G.sr[G.ch-1])+'☆'.repeat(3-G.sr[G.ch-1])):'');
 document.querySelectorAll('#sig i').forEach((b,i)=>b.classList.toggle('on',st*5>i+.3));
 fig.rad.color.setHSL(.64-.2*st,1,.25+.35*st+.12*Math.sin(t*6)*st);pingT-=dt;if(pingT<=0&&st>.04){tn(500+st*800,.09,'sine',.1);pingT=2.4-st*2.1}setStat((1-st)*.12+.02);
 }
-function termUpdate(dt){const df=Math.abs($('fr').value/10-97.3),cl=Math.max(0,1-df/6);$('meter').firstElementChild.style.width=cl*100+'%';setStat(.02+(1-cl)*.2);if(df<=.25){hold+=dt;$('tst').textContent='Locking… hold steady';if(hold>1.6)finish()}else{hold=0;$('tst').textContent=df<1.5?'Almost there':'Searching…'}}
+function termUpdate(dt){tick(dt);const tg=97.3+Math.sin(clock.elapsedTime*.9)*.3,df=Math.abs($('fr').value/10-tg),cl=Math.max(0,1-df/6);$('meter').firstElementChild.style.width=cl*100+'%';setStat(.02+(1-cl)*.2);if(df<=.35){hold+=dt;$('tst').textContent='Locking… hold steady';if(hold>1.6)finish()}else{hold=0;$('tst').textContent=df<1.5?'Almost there':'Searching…'}}
 function idle(dt,t){const a=t*.15;cam.position.set(px+Math.sin(a)*8,3.2,pz+Math.cos(a)*8);cam.lookAt(px,1.6,pz);fig.g.position.set(px,0,pz);fig.g.rotation.y=fig.imp?0:face;fig.walk=0;fig.AL.rotation.x=Math.sin(t*1.6)*.04;fig.AR.rotation.x=-Math.sin(t*1.6)*.04}
-function world(dt,t){if(fig&&fig.upd)fig.upd();sky.position.set(cam.position.x,0,cam.position.z);dust.position.set(px,0,pz);dust.rotation.y+=dt*.03;
+function world(dt,t){if(fig&&fig.upd)fig.upd();fxUpd(dt,t);sky.position.set(cam.position.x,0,cam.position.z);dust.position.set(px,0,pz);dust.rotation.y+=dt*.03;
 signs.forEach((s,i)=>s.material.opacity=Math.sin(t*(20+i)+i*5)>.93&&Math.sin(t*.9+i)>.6?.25:1);blink.forEach((b,i)=>b.visible=Math.sin(t*2.2+i)>0);
 const pwr=cnt('s')>=3?1:0;pw+=(pwr-pw)*Math.min(1,dt*2);if(panelM)panelM.color.setHSL(.58,.8,.1+.5*pw);
 let a=null,b=null,da=1e9,db=1e9;for(const h of hot){const d=Math.hypot(h.x-px,h.z-pz);if(d<da){b=a;db=da;a=h;da=d}else if(d<db){b=h;db=d}}
