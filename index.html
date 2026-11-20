@@ -31,6 +31,7 @@ p{margin:6px 0;max-width:560px;line-height:1.35}.sub{color:#9fb2ff;font-size:20p
 .opt{font:600 16px Rajdhani;background:#0a123699;color:var(--ink);border:1px solid #38e8ff55;padding:6px 14px;cursor:pointer}.opt.sel{background:#38e8ff33;border-color:var(--cy);color:var(--cy)}
 .lk{display:inline-block;color:var(--cy);border:1px solid #38e8ff55;padding:7px 16px;margin:4px;text-decoration:none;background:#0a123699}.lk:hover{background:#38e8ff22}
 #tsk{display:block;margin-top:6px;color:#ffd966;font-weight:600;font-size:18px}#tsk.low{color:#ff6a6a;animation:bl .5s infinite alternate}@keyframes bl{to{opacity:.35}}
+#clock{position:absolute;left:50%;top:calc(env(safe-area-inset-top,0px) + 8px);transform:translateX(-50%);font:800 44px Orbitron,Rajdhani,sans-serif;color:#fff;text-shadow:0 0 14px #38e8ff}#clock.low{color:#ff5a5a;text-shadow:0 0 14px #ff3a3a;animation:bl .4s infinite alternate}#tsk{white-space:pre-line;line-height:1.3;font-size:17px}
 </style></head><body>
 <div id="load" class="scr on"><h1>THE LAST SIGNAL</h1><div class="bar"><i id="bar"></i></div><p id="ltxt">Tuning the receiver…</p></div>
 <div id="menu" class="scr"><p class="big">A game by Rohit Sharma</p><h1>THE LAST SIGNAL</h1><p class="sub">Somewhere in the static, someone is calling.</p>
@@ -42,7 +43,8 @@ p{margin:6px 0;max-width:560px;line-height:1.35}.sub{color:#9fb2ff;font-size:20p
 <div id="pause" class="scr"><h2>Paused</h2><button class="btn" id="bRes">Resume</button><button class="btn" id="bSet2">Settings</button><button class="btn" id="bQuit">Save and quit</button></div>
 <div id="end" class="scr"><h1>THE LAST SIGNAL</h1><p class="big">Signal received.</p><p>The city never vanished. It was carried, one mind at a time, into the carrier wave. You were the last receiver, and now the lights are on again.</p><p id="stats" style="color:#9fb2ff"></p><p class="big" style="margin-top:20px">Created by Rohit Sharma</p><p>Independent Game Developer. Thank you for playing!</p><button class="btn" id="bMenu">Main menu</button></div>
 <div id="term" class="scr"><h2>Signal terminal</h2><p>Tune the carrier wave. The lab reports named the frequency, but the signal drifts, so keep adjusting.</p><h1 id="mhz" style="font-size:48px">97.0 MHz</h1><input id="fr" type="range" min="880" max="1080" value="900"><div id="meter"><i></i></div><p id="tst">Searching…</p><button class="btn" id="bTc">Step away</button></div>
-<div id="hud"><div id="obj"><small id="area"></small><b id="otx"></b><span id="tsk"></span></div><div id="cnt"><span id="c1"></span><span id="c2"></span><span id="c3"></span><button id="pbtn">Pause</button></div><div id="sig"><div><i style="height:8px"></i><i style="height:14px"></i><i style="height:20px"></i><i style="height:26px"></i><i style="height:32px"></i></div><span>Signal</span></div><div id="prompt"></div></div>
+<div id="over" class="scr"><h1 style="filter:none;background:linear-gradient(90deg,#ff5a5a,#9b5cff);-webkit-background-clip:text;background-clip:text">GAME OVER</h1><p class="big" style="color:#ff8a8a">You are out! Time ran out.</p><p id="ovs" style="color:#9fb2ff"></p><button class="btn" id="bRetry">Try this level again</button><button class="btn" id="bOverMenu">Main menu</button></div>
+<div id="hud"><div id="obj"><small id="area"></small><b id="otx"></b><span id="tsk"></span></div><div id="cnt"><span id="c1"></span><span id="c2"></span><span id="c3"></span><button id="pbtn">Pause</button></div><div id="sig"><div><i style="height:8px"></i><i style="height:14px"></i><i style="height:20px"></i><i style="height:26px"></i><i style="height:32px"></i></div><span>Signal</span></div><div id="prompt"></div><div id="clock"></div></div>
 <div id="msg"><b></b><p></p></div><div id="card"><small></small><h2></h2></div>
 <div id="tc"><div id="joy"><i id="stk"></i></div><div class="tb" id="bJ">Jump</div><div class="tb" id="bE">Use</div><div class="tb" id="bR">Run</div></div>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
@@ -50,9 +52,9 @@ p{margin:6px 0;max-width:560px;line-height:1.35}.sub{color:#9fb2ff;font-size:20p
 (()=>{"use strict";
 const $=id=>document.getElementById(id),T=window.THREE,touch='ontouchstart' in window||navigator.maxTouchPoints>0;
 const rd=(k,d)=>{try{const v=localStorage.getItem('ls_'+k);return v?JSON.parse(v):d}catch(e){return d}},wr=(k,v)=>{try{localStorage.setItem('ls_'+k,JSON.stringify(v))}catch(e){}};
-const cfg=Object.assign({mus:.5,sfx:.8,sens:1,char:'admin'},rd('cfg',{}));
+const cfg=Object.assign({mus:.5,sfx:.8,sens:1,char:'avatar'},rd('cfg',{}));if(cfg.v!==2){cfg.char='avatar';cfg.v=2;wr('cfg',cfg)}
 function fail(m){$('ltxt').textContent='Error: '+m;$('load').classList.add('on')}
-addEventListener('error',e=>fail(e.message));
+addEventListener('error',e=>{if(!window.LS_READY)fail(e.message);else console.warn(e.message)});addEventListener('unhandledrejection',e=>e.preventDefault());
 if(!T){fail('Three.js could not load. Check your connection and reload.');return}
 let R;try{R=new T.WebGLRenderer({antialias:!touch,powerPreference:'high-performance'})}catch(e){fail('WebGL is not available in this browser.');return}
 R.setPixelRatio(Math.min(devicePixelRatio,touch?1.25:1.75));R.setSize(innerWidth,innerHeight);R.toneMapping=T.ACESFilmicToneMapping;R.toneMappingExposure=1.15;R.outputEncoding=T.sRGBEncoding;document.body.prepend(R.domElement);
@@ -64,12 +66,16 @@ const K={},clock=new T.Clock(),cols=[],items=[],gates={},hot=[],signs=[],blink=[
 const fresh=()=>({x:0,z:6,yaw:0,c:[],ch:1}),has=k=>G.c.includes(k),take=k=>{if(!has(k))G.c.push(k)},cnt=p=>G.c.filter(c=>c[0]===p).length;
 const persist=()=>{G.x=px;G.z=pz;G.yaw=yaw;wr('save',G)};
 /* ---------- tasks and star effects ---------- */
-const TK=[0,{n:'Signal Sprint',d:'collect 3 fragments',t:60,ok:()=>cnt('f')>=3},{n:'Power Rush',d:'restore power and grab the keycard',t:60,ok:()=>cnt('s')>=3&&has('k')},{n:'Final Tuning',d:'lock the drifting signal',t:60,ok:()=>0}],fmt=s=>Math.floor(s/60)+':'+String(Math.floor(s%60)).padStart(2,'0');
+const TK=[0,{n:'Signal Sprint',t:60,tasks:[{d:'Collect 3 signal fragments',ok:()=>cnt('f')>=3},{d:'Find a battery',ok:()=>has('b0')||has('b1')},{d:'Read a document',ok:()=>has('d0')||has('d1')}]},
+{n:'Power Rush',t:60,tasks:[{d:'Restore power (3 switches)',ok:()=>cnt('s')>=3},{d:'Take the keycard',ok:()=>has('k')},{d:'Read a lab document',ok:()=>has('d2')||has('d3')}]},
+{n:'Final Tuning',t:60,tasks:[{d:'Open the tower door',ok:()=>has('T3')},{d:'Lock the drifting signal',ok:()=>has('E')}]}],allOk=k=>k.tasks.every(x=>x.ok()),fmt=s=>Math.floor(s/60)+':'+String(Math.floor(s%60)).padStart(2,'0');
 let tl=0,tOn=0,stun=0,fxT=0,fxD=3,fxM='win';const fxS=[];
-function beginTask(q){const k=TK[G.ch];tOn=0;if(!k||G.sr[G.ch-1])return;tl=k.t;tOn=1;if(!q)say('TASK · '+k.n.toUpperCase(),'Goal: '+k.d+' in '+fmt(k.t)+'. Batteries add 15 seconds.',8)}
+let CP=null;
+function beginTask(q){const k=TK[G.ch];tOn=0;if(!k||G.sr[G.ch-1])return;tl=k.t;tOn=1;CP=JSON.stringify(Object.assign({},G,{x:px,z:pz,yaw:yaw}));if(!q)say('TASK · '+k.n.toUpperCase(),'Finish all '+k.tasks.length+' tasks in '+fmt(k.t)+' or you are out. Batteries add 15 seconds.',8)}
 function win(){tOn=0;const k=TK[G.ch],r=tl/k.t,n=r>.6?3:r>.3?2:1;G.sr[G.ch-1]=n;stars('win',3);chime();say('TASK COMPLETE · '+'★'.repeat(n)+'☆'.repeat(3-n),k.n+' cleared with '+Math.ceil(tl)+' s left.',7);persist()}
-function lose(){G.fl++;tl=TK[G.ch].t;stun=1.6;stars('fail',2.4);tn(180,.7,'sawtooth',.15);say('TASK FAILED','Time ran out and you are dizzy. The clock resets, so try again. Fails: '+G.fl,7);if(mode==='term')closeTerm()}
-function tick(dt){if(!tOn)return;tl-=dt;if(tl<10&&Math.floor(tl)!==Math.floor(tl+dt))tn(880,.08,'square',.07);if(G.ch<3&&TK[G.ch].ok())win();else if(tl<=0)lose()}
+function lose(){G.fl++;tOn=0;stun=99;stars('fail',2);tn(180,.9,'sawtooth',.15);say('YOU ARE OUT!','Time ran out. Game over.',3);if(mode==='term')closeTerm();
+setTimeout(()=>{if(mode!=='play'&&mode!=='pause'&&mode!=='term')return;mode='over';$('ovs').textContent='Level '+G.ch+' · '+TK[G.ch].n+' · Stars '+G.sr.reduce((a,b)=>a+b,0)+' / 9';$('hud').classList.remove('on');$('tc').classList.remove('on');document.exitPointerLock&&document.exitPointerLock();show('over')},1800)}
+function tick(dt){if(!tOn)return;tl-=dt;if(tl<10&&Math.floor(tl)!==Math.floor(tl+dt))tn(880,.08,'square',.07);if(G.ch<3&&allOk(TK[G.ch]))win();else if(tl<=0)lose()}
 function mkStars(){const st=cv(64,64,g=>{g.fillStyle='#fff';g.beginPath();for(let i=0;i<10;i++){const r=i%2?11:28,a=-Math.PI/2+i*Math.PI/5;g.lineTo(32+Math.cos(a)*r,32+Math.sin(a)*r)}g.closePath();g.fill()});for(let i=0;i<7;i++){const q=new T.Sprite(new T.SpriteMaterial({map:st,transparent:true,depthWrite:false,fog:false,blending:T.AdditiveBlending}));q.visible=false;scene.add(q);fxS.push(q)}}
 function stars(m,d){fxM=m;fxT=fxD=d}
 function fxUpd(dt,t){const on=fxT>0;if(on)fxT-=dt;const el=fxD-fxT,isW=fxM==='win',fade=Math.min(1,Math.max(0,fxT)/.5);
@@ -206,10 +212,10 @@ addEventListener('touchend',e=>{for(const t of e.changedTouches){if(t.identifier
 $('bJ').onpointerdown=()=>jumpReq=1;$('bE').onpointerdown=()=>tryAct();$('bR').onpointerdown=()=>{runT=!runT;$('bR').classList.toggle('on',runT)};
 /* ---------- flow ---------- */
 const show=id=>{document.querySelectorAll('.scr').forEach(e=>e.classList.remove('on'));if(id)$(id).classList.add('on')};
-function toMenu(){mode='menu';show('menu');$('hud').classList.remove('on');$('tc').classList.remove('on');$('bCont').disabled=!rd('save',null);G=G||fresh()}
+function toMenu(){window.LS_READY=1;mode='menu';show('menu');$('hud').classList.remove('on');$('tc').classList.remove('on');$('bCont').disabled=!rd('save',null);G=G||fresh()}
 function start(g){G=g;G.sr=G.sr||[0,0,0];G.fl=G.fl||0;stun=0;fxT=0;px=G.x;pz=G.z;yaw=G.yaw;py=0;vy=0;pitch=.3;items.forEach(i=>{i.vis&&i.vis()});for(const id in gates){const g=gates[id];g.open=0;g.m.position.y=g.y0;if(g.col&&!cols.includes(g.col))cols.push(g.col)}['G1','G2','T3'].forEach(id=>{if(has(id))gate(id,1)});
 mode='play';show(null);$('hud').classList.add('on');if(touch)$('tc').classList.add('on');lock();
-if(!G.c.length)say('YOU WAKE ALONE','Cold asphalt. A silent city. Your radio crackles: follow the signal. Move with WASD, look with the mouse, press E to interact. Task: collect 3 fragments before the timer ends, and pick up batteries for extra time.',11);beginTask(!G.c.length);persist()}
+if(!G.c.length)say('YOU WAKE ALONE','Cold asphalt. A silent city. Your radio crackles: follow the signal. Move with WASD, look with the mouse, press E to interact. You have 60 seconds per level: finish the task list before the clock runs out or you are out. Batteries add 15 seconds.',11);beginTask(!G.c.length);persist()}
 function pause(){if(mode!=='play')return;mode='pause';persist();show('pause');document.exitPointerLock&&document.exitPointerLock()}
 function resume(){mode='play';show(null);lock()}
 function openTerm(){mode='term';document.exitPointerLock&&document.exitPointerLock();$('term').classList.add('on');hold=0;$('fr').value=900;upTerm()}
@@ -219,7 +225,7 @@ function finish(){if(tOn)win();take('E');persist();mode='end';$('term').classLis
 function tryAct(){if(mode!=='play'||!cur)return;act=.6;const c=cur;if(c.type==='frag'||c.type==='bat'||c.type==='sw')stars('win',1.3);c.fn()}
 $('bNew').onclick=()=>{initAudio();start(fresh())};$('bCont').onclick=()=>{initAudio();start(rd('save',fresh()))};
 $('bSet').onclick=()=>{back='menu';show('set')};$('bSet2').onclick=()=>{back='pause';show('set')};$('bAbout').onclick=()=>{back='menu';show('about')};
-document.querySelectorAll('.back').forEach(b=>b.onclick=()=>show(back));$('bRes').onclick=resume;$('bQuit').onclick=()=>{persist();toMenu()};$('bMenu').onclick=toMenu;$('pbtn').onclick=pause;$('bTc').onclick=closeTerm;$('fr').oninput=upTerm;
+document.querySelectorAll('.back').forEach(b=>b.onclick=()=>show(back));$('bRes').onclick=resume;$('bQuit').onclick=()=>{persist();toMenu()};$('bMenu').onclick=toMenu;$('bOverMenu').onclick=toMenu;$('bRetry').onclick=()=>{const g=JSON.parse(CP);g.fl=G.fl;initAudio();start(g)};$('pbtn').onclick=pause;$('bTc').onclick=closeTerm;$('fr').oninput=upTerm;
 $('vM').value=cfg.mus*100;$('vS').value=cfg.sfx*100;$('vC').value=cfg.sens*100;
 $('vM').oninput=e=>{cfg.mus=e.target.value/100;wr('cfg',cfg);vol()};$('vS').oninput=e=>{cfg.sfx=e.target.value/100;wr('cfg',cfg);vol();tn(660,.15,'sine',.2)};$('vC').oninput=e=>{cfg.sens=e.target.value/100;wr('cfg',cfg)};
 const optUp=()=>document.querySelectorAll('.opt').forEach(b=>b.classList.toggle('sel',b.dataset.c===cfg.char));
@@ -247,7 +253,7 @@ cur=null;let best=3;for(const i of items){if(!i.rep&&has(i.k))continue;const dd=
 const pr=$('prompt');if(cur){pr.style.display='block';setT('prompt',(touch?'':'E · ')+cur.label)}else pr.style.display='none';
 if(pz<-113&&G.ch<2){G.ch=2;card('AREA 2','The abandoned laboratory');beginTask()}if(pz<-195&&G.ch<3){G.ch=3;card('AREA 3','The signal tower');beginTask()}
 const ob=objective(),tg=ob[1];let dm=tg?Math.hypot(tg.x-px,tg.z-pz):99;for(const i of items)if(i.type==='frag'&&!has(i.k))dm=Math.min(dm,Math.hypot(i.x-px,i.z-pz));
-const st=Math.max(0,Math.min(1,1-dm/60));setT('area',['THE EMPTY STREETS','THE ABANDONED LABORATORY','THE SIGNAL TOWER'][G.ch-1]);setT('otx',ob[0]);setT('c1','Signals '+cnt('f')+' / 7');setT('c2','Archive '+(cnt('d')+cnt('r'))+' / 6');setT('c3','Cells '+cnt('b')+' / 7 · Stars '+G.sr.reduce((a,b)=>a+b,0)+' / 9');const kk=TK[G.ch];$('tsk').classList.toggle('low',!!tOn&&tl<20);setT('tsk',kk?(tOn?'⏱ '+fmt(tl)+' · '+kk.n+': '+kk.d:kk.n+' · '+'★'.repeat(G.sr[G.ch-1])+'☆'.repeat(3-G.sr[G.ch-1])):'');
+const st=Math.max(0,Math.min(1,1-dm/60));setT('area',['THE EMPTY STREETS','THE ABANDONED LABORATORY','THE SIGNAL TOWER'][G.ch-1]);setT('otx',ob[0]);setT('c1','Signals '+cnt('f')+' / 7');setT('c2','Archive '+(cnt('d')+cnt('r'))+' / 6');setT('c3','Cells '+cnt('b')+' / 7 · Stars '+G.sr.reduce((a,b)=>a+b,0)+' / 9');const kk=TK[G.ch];$('clock').classList.toggle('low',!!tOn&&tl<10);setT('clock',tOn?'⏱ '+fmt(tl):'');setT('tsk',kk?kk.n+(G.sr[G.ch-1]?' · '+'★'.repeat(G.sr[G.ch-1]):'')+'\n'+kk.tasks.map(x=>(x.ok()?'✓ ':'○ ')+x.d).join('\n'):'');setT('tsk',kk?(tOn?'⏱ '+fmt(tl)+' · '+kk.n+': '+kk.d:kk.n+' · '+'★'.repeat(G.sr[G.ch-1])+'☆'.repeat(3-G.sr[G.ch-1])):'');
 document.querySelectorAll('#sig i').forEach((b,i)=>b.classList.toggle('on',st*5>i+.3));
 fig.rad.color.setHSL(.64-.2*st,1,.25+.35*st+.12*Math.sin(t*6)*st);pingT-=dt;if(pingT<=0&&st>.04){tn(500+st*800,.09,'sine',.1);pingT=2.4-st*2.1}setStat((1-st)*.12+.02);
 }
